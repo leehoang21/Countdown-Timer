@@ -3,28 +3,28 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ProviderTime extends ChangeNotifier {
-  static const Duration duration = Duration(seconds: 1);
+  static const Duration _duration = Duration(seconds: 1);
   Timer? _timer;
 
-  static const Duration maxSeconds = Duration(seconds: 180);
-  Duration seconds = maxSeconds;
-  bool isRun = false;
+  static const Duration _maxSeconds = Duration(seconds: 180);
+  Duration _seconds = _maxSeconds;
+  bool _isRun = false;
 
-  String get stringSeconds => format(seconds);
-  double get value => seconds.inSeconds / maxSeconds.inSeconds;
+  bool get isRun => _isRun;
 
-  bool isStart() {
-    return seconds == maxSeconds;
-  }
+  String get stringSeconds => _seconds.toString().split(".").first;
+  double get value => _seconds.inSeconds / _maxSeconds.inSeconds;
+
+  bool get isStart => _seconds == _maxSeconds;
 
   void startTimer() {
-    if (seconds != const Duration()) {
-      isRun = true;
+    if (_seconds != const Duration()) {
+      _isRun = true;
       notifyListeners();
 
-      _timer = Timer.periodic(duration, (timer) {
-        seconds = seconds - duration;
-        if (seconds == const Duration()) {
+      _timer = Timer.periodic(_duration, (timer) {
+        _seconds = _seconds - _duration;
+        if (_seconds == const Duration()) {
           timer.cancel();
         }
         notifyListeners();
@@ -33,7 +33,7 @@ class ProviderTime extends ChangeNotifier {
   }
 
   void pauseTimer() {
-    isRun = false;
+    _isRun = false;
     if (_timer != null) {
       _timer!.cancel();
     }
@@ -41,20 +41,12 @@ class ProviderTime extends ChangeNotifier {
   }
 
   void stopTimer() {
-    isRun = false;
+    _isRun = false;
     if (_timer != null) {
       _timer!.cancel();
     }
-    seconds = maxSeconds;
+    _seconds = _maxSeconds;
     notifyListeners();
-  }
-
-  String format(Duration duration) {
-    if (duration == const Duration()) {
-      return "Over!";
-    } else {
-      return duration.toString().split(".").first;
-    }
   }
 
   @override

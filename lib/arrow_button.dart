@@ -25,7 +25,7 @@ class ArrowButton extends StatelessWidget {
       left: isRight ? null : 10,
       child: IconButton(
         onPressed: () {
-          var _isStart = context.read<ProviderTime>().isStart();
+          var _isStart = context.read<ProviderTime>().isStart;
 
           if (lim && _isStart) {
             context.read<ProviderImagePosition>().setImagePosition(value);

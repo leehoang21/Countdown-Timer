@@ -44,7 +44,7 @@ class StartPauseButton extends StatelessWidget {
     if (context.read<ProviderTime>().isRun) {
       return 'pause';
     } else {
-      if (!context.read<ProviderTime>().isStart()) {
+      if (!context.read<ProviderTime>().isStart) {
         return 'Resume';
       } else {
         return 'start';
