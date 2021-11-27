@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ProviderTime extends ChangeNotifier {
-  static const Duration _duration = Duration(seconds: 1);
+  static const Duration _duration = Duration(milliseconds: 50);
   Timer? _timer;
 
   static const Duration _maxSeconds = Duration(seconds: 180);
@@ -12,11 +12,14 @@ class ProviderTime extends ChangeNotifier {
 
   bool get isRun => _isRun;
 
-  String get stringSeconds => _seconds.toString().split(".").first;
+  String get stringSeconds =>
+      complete() ? 'complete' : _seconds.toString().split(".").first;
   double get value => _seconds.inSeconds / _maxSeconds.inSeconds;
+  bool complete() {
+    return _seconds == const Duration(seconds: 0);
+  }
 
   bool get isStart => _seconds == _maxSeconds;
-
   void startTimer() {
     if (_seconds != const Duration()) {
       _isRun = true;

@@ -22,7 +22,9 @@ class StartPauseButton extends StatelessWidget {
             shape: const CircleBorder(),
           ),
           onPressed: () {
-            if (!context.read<ProviderTime>().isRun) {
+            if (context.read<ProviderTime>().complete()) {
+              context.read<ProviderTime>().stopTimer();
+            } else if (!context.read<ProviderTime>().isRun) {
               context.read<ProviderTime>().startTimer();
             } else {
               context.read<ProviderTime>().pauseTimer();
@@ -41,7 +43,9 @@ class StartPauseButton extends StatelessWidget {
   }
 
   String text(BuildContext context) {
-    if (context.read<ProviderTime>().isRun) {
+    if (context.watch<ProviderTime>().complete()) {
+      return 'finish';
+    } else if (context.read<ProviderTime>().isRun) {
       return 'pause';
     } else {
       if (!context.read<ProviderTime>().isStart) {

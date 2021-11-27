@@ -24,9 +24,9 @@ class StopButton extends StatelessWidget {
           onPressed: () {
             context.read<ProviderTime>().stopTimer();
           },
-          child: const Text(
-            'stop',
-            style: TextStyle(
+          child: Text(
+            context.watch<ProviderTime>().complete() ? 'finish' : 'stop',
+            style: const TextStyle(
               fontSize: 20,
               color: Colors.orange,
             ),
